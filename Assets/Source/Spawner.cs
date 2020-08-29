@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace MarianPekar.FireSpreadingSimulation
+﻿namespace MarianPekar.FireSpreadingSimulation
 {
     using System;
+    using System.Collections.Generic;
     using Unity.Entities;
     using Unity.Transforms;
     using UnityEngine;
@@ -12,7 +11,6 @@ namespace MarianPekar.FireSpreadingSimulation
     {
         public GameObject Prefab;
         public Vector2 Area;
-        public Vector3 Offset;
         public float NoiseScale;
         public float NoiseThreshold;
         public uint Seed;
@@ -26,15 +24,21 @@ namespace MarianPekar.FireSpreadingSimulation
         private GameObjectConversionSettings settings;
         private readonly List<Entity> instances = new List<Entity>();
 
-        public void SetSeed(uint seed, int spawnableId)
+        public void SetSeed(uint seed, int index)
         {
-            spawnables[spawnableId].Seed = seed;
+            spawnables[index].Seed = seed;
         }
 
         public void Start()
         {
             manager = World.DefaultGameObjectInjectionWorld.EntityManager;
             settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
+        }
+
+        public void SpawnOne(int index, Vector3 position, Quaternion rotation)
+        {
+            var entity = GameObjectConversionUtility.ConvertGameObjectHierarchy(spawnables[index].Prefab, settings);
+            Spawn(entity, position, rotation);
         }
 
         public void SpawnAll()
@@ -55,14 +59,20 @@ namespace MarianPekar.FireSpreadingSimulation
                     if (!Physics.Raycast(raycastOrigin, Vector3.down, out var hit, int.MaxValue))
                         continue;
 
-                    var instance = manager.Instantiate(entity);
-                    manager.SetComponentData(instance, new Translation { Value = hit.point + spawnable.Offset });
-                    manager.SetComponentData(instance, new Rotation { Value = Quaternion.FromToRotation(Vector3.up, hit.normal) });
-                    manager.AddComponentData(instance, new DestroyData { Destroy = false });
-
-                    instances.Add(instance);
+                    Spawn(entity, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal));
                 }
             }
+        }
+
+        private void Spawn(Entity entity, Vector3 position, Quaternion rotation)
+        {
+            var instance = manager.Instantiate(entity);
+            manager.SetComponentData(instance, new Translation { Value = position });
+            manager.SetComponentData(instance, new Rotation { Value = rotation });
+            manager.AddComponentData(instance, new DestroyData { Destroy = false });
+            manager.AddComponentData(instance, new FlamableData { State = FlamableState.Healthy });
+
+            instances.Add(instance);
         }
 
         public void ClearAll()
