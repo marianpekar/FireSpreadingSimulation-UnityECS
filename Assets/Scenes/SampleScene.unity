@@ -365,7 +365,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2009427826}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -445,7 +445,6 @@ RectTransform:
   m_Children:
   - {fileID: 1328809445}
   - {fileID: 650533365}
-  - {fileID: 1111111636}
   - {fileID: 2009427826}
   m_Father: {fileID: 1851080750}
   m_RootOrder: 0
@@ -468,14 +467,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.13333334}
+  m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0.6392157}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -698,7 +697,7 @@ GameObject:
   - component: {fileID: 1111111638}
   - component: {fileID: 1111111637}
   m_Layer: 5
-  m_Name: ModeLable
+  m_Name: ModeLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -715,12 +714,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 701452928}
-  m_RootOrder: 2
+  m_Father: {fileID: 2009427826}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00046819285, y: 35.67722}
+  m_AnchoredPosition: {x: -0.035367254, y: 23.47705}
   m_SizeDelta: {x: 148.11871, y: 18.958633}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111111637
@@ -1383,9 +1382,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1111111636}
   - {fileID: 676835027}
   m_Father: {fileID: 701452928}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -1517,7 +1517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnables:
   - Prefab: {fileID: 7653257228210486273, guid: 3ba286b86ce4807469e68a1bbaa1eaf3, type: 3}
-    Area: {x: 500, y: 500}
+    Area: {x: 300, y: 300}
     NoiseScale: 0.2
     NoiseThreshold: 0.66
     Seed: 1

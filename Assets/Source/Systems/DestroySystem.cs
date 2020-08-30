@@ -25,6 +25,8 @@
             }).Schedule(inputDeps);
 
             bufferSystem.AddJobHandleForProducer(jobHandle);
+
+            jobHandle.Complete();
             return default;
         }
     }
