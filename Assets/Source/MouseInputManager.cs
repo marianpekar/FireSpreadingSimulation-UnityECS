@@ -1,14 +1,13 @@
-﻿using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Physics;
-using Unity.Physics.Systems;
-
-namespace MarianPekar.FireSpreadingSimulation
+﻿namespace MarianPekar.FireSpreadingSimulation
 {
     using System;
     using Unity.Collections;
     using Unity.Jobs;
     using UnityEngine;
+    using Unity.Entities;
+    using Unity.Mathematics;
+    using Unity.Physics;
+    using Unity.Physics.Systems;
 
     public enum MouseMode
     {
@@ -28,6 +27,8 @@ namespace MarianPekar.FireSpreadingSimulation
 
         public MouseMode currentMode = MouseMode.Add;
 
+        private int mouseModeCount;
+
         private Camera camera;
 
         public struct RaycastJob : IJob
@@ -45,6 +46,8 @@ namespace MarianPekar.FireSpreadingSimulation
 
         void Start()
         {
+            mouseModeCount = Enum.GetNames(typeof(MouseMode)).Length;
+
             camera = Camera.main;
 
             raycastHits = new NativeList<Unity.Physics.RaycastHit>(Allocator.Persistent);
@@ -98,9 +101,6 @@ namespace MarianPekar.FireSpreadingSimulation
 
                     foreach (var raycastHit in raycastHits.ToArray())
                     {
-                        if (raycastHit.RigidBodyIndex <= 0) 
-                            continue;
-
                         var entity = buildPhysicsWorld.PhysicsWorld.Bodies[raycastHit.RigidBodyIndex].Entity;
                         if (entity != Entity.Null)
                             spawner.Manager.DestroyEntity(entity);
@@ -112,6 +112,15 @@ namespace MarianPekar.FireSpreadingSimulation
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public MouseMode ToogleMode()
+        {
+            currentMode++;
+            if ((int)currentMode >= mouseModeCount)
+                currentMode = 0;
+
+            return currentMode;
         }
     }
 }
