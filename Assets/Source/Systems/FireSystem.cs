@@ -28,7 +28,7 @@
 
         protected override void OnUpdate()
         {
-            EntityManager manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            var manager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
             Entities
                 .WithoutBurst()
@@ -36,39 +36,39 @@
                 .WithAll<FlamableData>().ForEach((Entity entity, RenderMesh renderMesh, ref FlamableData flamableData, ref LifetimeData lifetimeData) =>
                 {
 
-                switch (flamableData.State)
-                {
-                    case FlamableState.Healthy:
-                        renderMesh.material = healthyGreen;
-                        manager.SetSharedComponentData(entity, renderMesh);
-                        manager.SetComponentData(entity, new FlamableData { State = FlamableState.Healthy });
-                        manager.SetComponentData(entity, new LifetimeData { LifeTime = 5f });
+                    switch (flamableData.State)
+                    {
+                        case FlamableState.Healthy:
+                            renderMesh.material = healthyGreen;
+                            manager.SetSharedComponentData(entity, renderMesh);
+                            manager.SetComponentData(entity, new FlamableData { State = FlamableState.Healthy });
+                            manager.SetComponentData(entity, new LifetimeData { LifeTime = 5f });
 
-                        break;
-                    case FlamableState.OnFire:
-                        renderMesh.material = burningRed;
-                        manager.SetSharedComponentData(entity, renderMesh);
+                            break;
+                        case FlamableState.OnFire:
+                            renderMesh.material = burningRed;
+                            manager.SetSharedComponentData(entity, renderMesh);
 
-                        lifetimeData.LifeTime -= Time.DeltaTime;
-                        if (lifetimeData.LifeTime <= 0)
-                        {
-                            manager.SetComponentData(entity, new FlamableData
+                            lifetimeData.LifeTime -= Time.DeltaTime;
+                            if (lifetimeData.LifeTime <= 0)
                             {
-                                State = FlamableState.Burned
-                            });
-                        }
+                                manager.SetComponentData(entity, new FlamableData
+                                {
+                                    State = FlamableState.Burned
+                                });
+                            }
 
-                        break;
-                    case FlamableState.Burned:
-                        renderMesh.material = deadBlack;
-                        manager.SetSharedComponentData(entity, renderMesh);
+                            break;
+                        case FlamableState.Burned:
+                            renderMesh.material = deadBlack;
+                            manager.SetSharedComponentData(entity, renderMesh);
 
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
 
-            }).Run();
+                }).Run();
         }
 
     }
