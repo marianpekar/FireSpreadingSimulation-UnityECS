@@ -20,7 +20,7 @@
     {
         [SerializeField] private Spawnable[] spawnables;
 
-        private EntityManager manager;
+        public EntityManager Manager;
         private GameObjectConversionSettings settings;
         private readonly List<Entity> instances = new List<Entity>();
 
@@ -31,7 +31,7 @@
 
         public void Start()
         {
-            manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            Manager = World.DefaultGameObjectInjectionWorld.EntityManager;
             settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
         }
 
@@ -66,11 +66,11 @@
 
         private void Spawn(Entity entity, Vector3 position, Quaternion rotation)
         {
-            var instance = manager.Instantiate(entity);
-            manager.SetComponentData(instance, new Translation { Value = position });
-            manager.SetComponentData(instance, new Rotation { Value = rotation });
-            manager.AddComponentData(instance, new DestroyData { Destroy = false });
-            manager.AddComponentData(instance, new FlamableData { State = FlamableState.Healthy });
+            var instance = Manager.Instantiate(entity);
+            Manager.SetComponentData(instance, new Translation { Value = position });
+            Manager.SetComponentData(instance, new Rotation { Value = rotation });
+            Manager.AddComponentData(instance, new DestroyData { Destroy = false });
+            Manager.AddComponentData(instance, new FlamableData { State = FlamableState.Healthy });
 
             instances.Add(instance);
         }
@@ -78,7 +78,10 @@
         public void ClearAll()
         {
             foreach (var instance in instances)
-                manager.SetComponentData(instance, new DestroyData { Destroy = true } );
+            {
+                if(Manager.Exists(instance))
+                    Manager.SetComponentData(instance, new DestroyData { Destroy = true });
+            }
 
             instances.Clear();
         }
