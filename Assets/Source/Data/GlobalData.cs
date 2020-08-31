@@ -5,7 +5,7 @@
 
     public sealed class GlobalData
     {
-        public List<Action<bool>> IsSimulationRunningActions;
+        public List<Action<bool>> IsSimulationRunningActions = new List<Action<bool>>();
         private bool isSimulationRunning = false;
         public bool IsSimulationRunning
         {
@@ -19,7 +19,7 @@
             }
         }
 
-        public List<Action<float>> WindChangedActions;
+        public List<Action<float>> WindChangedActions = new List<Action<float>>();
         private float windDirection;
         public float WindDirection
         {

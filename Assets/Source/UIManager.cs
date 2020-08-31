@@ -10,6 +10,26 @@
         [SerializeField] private MouseInputManager mouseInputManager;
         [SerializeField] private Text mouseModeButtonText;
 
+        [SerializeField] private Text simulateButtonText;
+
+        public void Start()
+        {
+            GlobalData.Instance.IsSimulationRunningActions.Add(SetSimulationButtonText);
+        }
+
+        public void ToggleSimulationState()
+        {
+            GlobalData.Instance.IsSimulationRunning = !GlobalData.Instance.IsSimulationRunning;
+        }
+
+        private void SetSimulationButtonText(bool isSimulationRunning)
+        {
+            if (isSimulationRunning)
+                simulateButtonText.text = "Stop";
+            else
+                simulateButtonText.text = "Simulate";
+        }
+
         public void Generate()
         {
             spawner.ClearAll();
