@@ -4,6 +4,8 @@
     using UnityEngine;
     using Unity.Rendering;
     using Unity.Entities;
+    using Unity.Mathematics;
+    using Unity.Transforms;
 
     public class ChangeMaterialSystem : SystemBase
     {
@@ -33,11 +35,10 @@
         {
             var manager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-
             Entities
                 .WithoutBurst()
                 .WithStructuralChanges()
-                .WithAll<FlamableData>().ForEach((Entity entity, RenderMesh renderMesh, ref FlamableData flamableData, ref LifetimeData lifetimeData) =>
+                .WithAll<FlamableData>().ForEach((Entity entity, Translation translation, RenderMesh renderMesh, ref FlamableData flamableData, ref LifetimeData lifetimeData, ref FireSpreadingData fireSpreadingData) =>
                 {
 
                     switch (flamableData.State)
@@ -45,8 +46,9 @@
                         case FlamableState.Healthy:
                             renderMesh.material = healthyGreen;
                             manager.SetSharedComponentData(entity, renderMesh);
-                            manager.SetComponentData(entity, new FlamableData { State = FlamableState.Healthy });
-                            manager.SetComponentData(entity, new LifetimeData { LifeTime = 5f });
+                            flamableData.State = FlamableState.Healthy;
+                            lifetimeData.LifeTime = GlobalData.DefaultLifeTime;
+                            fireSpreadingData.Timer = GlobalData.FireSpreadingTimerInitialValue;
 
                             break;
                         case FlamableState.OnFire:
@@ -56,13 +58,17 @@
                             if(!GlobalData.Instance.IsSimulationRunning)
                                 break;
 
+                            fireSpreadingData.Timer -= Time.DeltaTime * GlobalData.Instance.WindSpeed;
+                            if (fireSpreadingData.Timer <= 0f)
+                            {
+                                fireSpreadingData.Timer = GlobalData.FireSpreadingTimerInitialValue;
+                                // TODO: Raycast from here to set nearest entities to fire
+                            }
+
                             lifetimeData.LifeTime -= Time.DeltaTime;
                             if (lifetimeData.LifeTime <= 0)
                             {
-                                manager.SetComponentData(entity, new FlamableData
-                                {
-                                    State = FlamableState.Burned
-                                });
+                                flamableData.State = FlamableState.Burned;
                             }
 
                             break;

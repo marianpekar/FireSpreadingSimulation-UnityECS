@@ -23,6 +23,9 @@
             GlobalData.Instance.IsSimulationRunningActions.Add(SetSimulationButtonText);
             GlobalData.Instance.WindDirectionChangedActions.Add((windDirection) => windDirectionText.text = $"Wind Direction {windDirection}°");
             GlobalData.Instance.WindSpeedChangedActions.Add((windSpeed) => windSpeedText.text = $"Wind Speed {windSpeed} km/h");
+
+            SetWindDirection();
+            SetWindSpeed();
         }
 
         public void ToggleSimulationState()
