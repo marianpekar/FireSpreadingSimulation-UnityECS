@@ -18,12 +18,15 @@
 
             healthyGreen = new Material(shader);
             healthyGreen.SetColor("_Color", Color.green);
+            healthyGreen.enableInstancing = true;
 
             burningRed = new Material(shader);
             burningRed.SetColor("_Color", Color.red);
+            burningRed.enableInstancing = true;
 
             deadBlack = new Material(shader);
             deadBlack.SetColor("_Color", Color.black);
+            deadBlack.enableInstancing = true;
         }
 
         protected override void OnUpdate()
