@@ -4,7 +4,6 @@
     using UnityEngine;
     using Unity.Rendering;
     using Unity.Entities;
-    using Unity.Mathematics;
     using Unity.Transforms;
 
     public class ChangeMaterialSystem : SystemBase
@@ -55,7 +54,7 @@
                             renderMesh.material = burningRed;
                             manager.SetSharedComponentData(entity, renderMesh);
 
-                            if(!GlobalData.Instance.IsSimulationRunning)
+                            if(!GlobalData.Instance.IsSimulationRunning || GlobalData.Instance.WindSpeed <= 0f)
                                 break;
 
                             fireSpreadingData.Timer -= Time.DeltaTime * GlobalData.Instance.WindSpeed;
@@ -64,14 +63,16 @@
                                 fireSpreadingData.Timer = GlobalData.FireSpreadingTimerInitialValue;
 
                                 var randomSpread = UnityEngine.Random.Range(-45f, 45f);
+                                var maxSpreadingDistance = GlobalData.Instance.WindSpeed / 5f;
+                                var randomDistance = UnityEngine.Random.Range(1f, maxSpreadingDistance > 1f ? maxSpreadingDistance : 1f);
 
-                                var x = Mathf.Cos((GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad));
-                                var y = Mathf.Sin((GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad));
+                                var x = randomDistance * Mathf.Cos((GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad));
+                                var y = randomDistance * Mathf.Sin((GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad));
 
                                 var start = new Vector3(translation.Value.x + x, translation.Value.y + 5f, translation.Value.z + y);
                                 var end = new Vector3(translation.Value.x + x, translation.Value.y, translation.Value.z + y);
 
-                                //Debug.DrawLine(start, end, Color.green, 5f);
+                                Debug.DrawLine(start, end, Color.red, 1f);
 
                                 var entityToIgnite = Raycaster.GetEntityWithRaycast(start, end - start);
                                 manager.SetComponentData(entityToIgnite, new FlamableData() {State = FlamableState.OnFire});
@@ -95,6 +96,5 @@
 
                 }).Run();
         }
-
     }
 }
