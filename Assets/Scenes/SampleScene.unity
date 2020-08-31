@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 2090291095}
-  ignitionCount: 250
+  ignitionFactor: 0.1
 --- !u!4 &549581783
 Transform:
   m_ObjectHideFlags: 0

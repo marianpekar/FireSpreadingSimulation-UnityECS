@@ -8,15 +8,23 @@
     {
         [SerializeField] private Spawner spawner;
 
-        [SerializeField] private int ignitionCount;
+        [Range(0.0f,1.0f)]
+        [SerializeField] private float ignitionFactor;
+
+        private int ignitionCount; 
+
         private NativeArray<Entity> entities;
 
         public void IgniteRandomFlamables()
         {
-            entities = spawner.Manager.CreateEntityQuery(typeof(FlamableData)).ToEntityArray(Allocator.Persistent);
+            entities = spawner.Manager.CreateEntityQuery(typeof(FlamableData)).ToEntityArray(Allocator.TempJob);
+            ignitionCount = Mathf.CeilToInt(entities.Length * ignitionFactor);
 
-            if(entities.Length == 0)
+            if (entities.Length == 0 || ignitionCount == 0)
+            {
+                entities.Dispose();
                 return;
+            }
 
             if (ignitionCount > entities.Length)
             {
@@ -35,11 +43,6 @@
             foreach (var entity in entities)
                 spawner.Manager.SetComponentData(entity, new FlamableData { State = FlamableState.OnFire });
 
-            entities.Dispose();
-        }
-
-        public void OnDestroy()
-        {
             entities.Dispose();
         }
     }
