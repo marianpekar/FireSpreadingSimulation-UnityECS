@@ -85,13 +85,13 @@
                     break;
                 case MouseMode.Remove:
                     var entityToDestroy = GetEntityWithRaycast(origin, direction);
-                    if (entityToDestroy != Entity.Null)
+                    if (spawner.Manager.Exists(entityToDestroy))
                         spawner.Manager.DestroyEntity(entityToDestroy);
 
                     break;
                 case MouseMode.ToggleFire:
                     var entityToChange = GetEntityWithRaycast(origin, direction);
-                    if (entityToChange != Entity.Null)
+                    if (spawner.Manager.Exists(entityToChange))
                     {
                         var flamableData = spawner.Manager.GetComponentData<FlamableData>(entityToChange);
 
