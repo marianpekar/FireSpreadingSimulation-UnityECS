@@ -62,7 +62,19 @@
                             if (fireSpreadingData.Timer <= 0f)
                             {
                                 fireSpreadingData.Timer = GlobalData.FireSpreadingTimerInitialValue;
-                                // TODO: Raycast from here to set nearest entities to fire
+
+                                var randomSpread = UnityEngine.Random.Range(-45f, 45f);
+
+                                var x = Mathf.Cos((GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad));
+                                var y = Mathf.Sin((GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad));
+
+                                var start = new Vector3(translation.Value.x + x, translation.Value.y + 5f, translation.Value.z + y);
+                                var end = new Vector3(translation.Value.x + x, translation.Value.y, translation.Value.z + y);
+
+                                //Debug.DrawLine(start, end, Color.green, 5f);
+
+                                var entityToIgnite = Raycaster.GetEntityWithRaycast(start, end - start);
+                                manager.SetComponentData(entityToIgnite, new FlamableData() {State = FlamableState.OnFire});
                             }
 
                             lifetimeData.LifeTime -= Time.DeltaTime;
