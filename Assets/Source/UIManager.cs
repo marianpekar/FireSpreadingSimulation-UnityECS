@@ -60,9 +60,9 @@
             spawner.ClearAll();
         }
 
-        public void ToogleMouseMode()
+        public void ToggleMouseMode()
         {
-            var currentMode = mouseInputManager.ToogleMode();
+            var currentMode = mouseInputManager.ToggleMode();
             mouseModeButtonText.text = currentMode.ToString();
         }
 

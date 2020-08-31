@@ -134,7 +134,7 @@
             return Entity.Null;
         }
 
-        public MouseMode ToogleMode()
+        public MouseMode ToggleMode()
         {
             currentMode++;
             if ((int)currentMode >= mouseModeCount)
