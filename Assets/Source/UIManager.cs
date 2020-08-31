@@ -15,10 +15,14 @@
         [SerializeField] private Slider windDirectionSlider;
         [SerializeField] private Text windDirectionText;
 
+        [SerializeField] private Slider windSpeedSlider;
+        [SerializeField] private Text windSpeedText;
+
         public void Start()
         {
             GlobalData.Instance.IsSimulationRunningActions.Add(SetSimulationButtonText);
-            GlobalData.Instance.WindChangedActions.Add((windDirection) => windDirectionText.text = $"Wind Direction {windDirection}°");
+            GlobalData.Instance.WindDirectionChangedActions.Add((windDirection) => windDirectionText.text = $"Wind Direction {windDirection}°");
+            GlobalData.Instance.WindSpeedChangedActions.Add((windSpeed) => windSpeedText.text = $"Wind Speed {windSpeed} km/h");
         }
 
         public void ToggleSimulationState()
@@ -29,6 +33,11 @@
         public void SetWindDirection()
         {
             GlobalData.Instance.WindDirection = windDirectionSlider.value;
+        }
+
+        public void SetWindSpeed()
+        {
+            GlobalData.Instance.WindSpeed = windSpeedSlider.value;
         }
 
         private void SetSimulationButtonText(bool isSimulationRunning)

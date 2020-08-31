@@ -19,7 +19,7 @@
             }
         }
 
-        public List<Action<float>> WindChangedActions = new List<Action<float>>();
+        public List<Action<float>> WindDirectionChangedActions = new List<Action<float>>();
         private float windDirection;
         public float WindDirection
         {
@@ -28,7 +28,21 @@
             {
                 windDirection = value;
 
-                foreach (var action in WindChangedActions)
+                foreach (var action in WindDirectionChangedActions)
+                    action.Invoke(value);
+            }
+        }
+
+        public List<Action<float>> WindSpeedChangedActions = new List<Action<float>>();
+        private float windSpeed;
+        public float WindSpeed
+        {
+            get { return windSpeed; }
+            set
+            {
+                windSpeed = value;
+
+                foreach (var action in WindSpeedChangedActions)
                     action.Invoke(value);
             }
         }
