@@ -65,5 +65,10 @@
             var currentMode = mouseInputManager.ToogleMode();
             mouseModeButtonText.text = currentMode.ToString();
         }
+
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }
