@@ -33,6 +33,7 @@
         {
             var manager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
+
             Entities
                 .WithoutBurst()
                 .WithStructuralChanges()
