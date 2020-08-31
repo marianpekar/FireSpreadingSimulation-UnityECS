@@ -52,6 +52,9 @@
                             renderMesh.material = burningRed;
                             manager.SetSharedComponentData(entity, renderMesh);
 
+                            if(!GlobalData.Instance.IsSimulationRunning)
+                                break;
+
                             lifetimeData.LifeTime -= Time.DeltaTime;
                             if (lifetimeData.LifeTime <= 0)
                             {
