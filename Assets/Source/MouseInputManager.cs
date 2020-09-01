@@ -32,6 +32,12 @@ namespace MarianPekar.FireSpreadingSimulation
             camera = Camera.main;
         }
 
+        void OnDestroy()
+        {
+            if (Raycaster.RaycastHits.IsCreated)
+                Raycaster.RaycastHits.Dispose();
+        }
+
         void LateUpdate()
         {
             if (!Input.GetMouseButtonDown(0) || EventSystem.current.IsPointerOverGameObject()) return;

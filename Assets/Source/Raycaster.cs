@@ -14,7 +14,7 @@ namespace MarianPekar.FireSpreadingSimulation
         private static RaycastInput raycastInput;
         private static BuildPhysicsWorld buildPhysicsWorld;
         private static StepPhysicsWorld stepPhysicsWorld;
-        public static NativeList<RaycastHit> raycastHits = new NativeList<RaycastHit>(Allocator.Persistent);
+        public static NativeList<RaycastHit> RaycastHits = new NativeList<RaycastHit>(Allocator.Persistent);
 
         public struct RaycastJob : IJob
         {
@@ -35,7 +35,7 @@ namespace MarianPekar.FireSpreadingSimulation
             stepPhysicsWorld = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<StepPhysicsWorld>();
 
             stepPhysicsWorld.GetOutputDependency().Complete();
-            raycastHits.Clear();
+            RaycastHits.Clear();
 
             raycastInput = new RaycastInput
             {
@@ -47,13 +47,13 @@ namespace MarianPekar.FireSpreadingSimulation
             var jobHandle = new RaycastJob
             {
                 Input = raycastInput,
-                Hits = raycastHits,
+                Hits = RaycastHits,
                 World = buildPhysicsWorld.PhysicsWorld
             }.Schedule();
 
             jobHandle.Complete();
 
-            return raycastHits.ToArray()[0].Entity;
+            return RaycastHits.ToArray()[0].Entity;
         }
     }
 }
