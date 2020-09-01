@@ -3,8 +3,8 @@
     using Unity.Entities;
 
     [GenerateAuthoringComponent]
-    public struct LifetimeData : IComponentData
+    public struct HealthData : IComponentData
     {
-        public float LifeTime;
+        public float Health;
     }
 }

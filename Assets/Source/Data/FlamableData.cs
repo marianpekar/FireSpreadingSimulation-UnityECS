@@ -2,14 +2,14 @@
 {
     using Unity.Entities;
 
-    public enum FlamableState
+    public enum FlammableState
     {
         Healthy, OnFire, Burned
     }
 
     [GenerateAuthoringComponent]
-    public struct FlamableData : IComponentData
+    public struct FlammableData : IComponentData
     {
-        public FlamableState State;
+        public FlammableState State;
     }
 }

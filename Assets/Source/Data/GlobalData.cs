@@ -6,7 +6,7 @@
     public sealed class GlobalData
     {
         public const float FireSpreadingTimerInitialValue = 10f;
-        public const float DefaultLifeTime = 20f;
+        public const float DefaultHealth = 20f;
 
         public List<Action<bool>> IsSimulationRunningActions = new List<Action<bool>>();
         private bool isSimulationRunning = false;

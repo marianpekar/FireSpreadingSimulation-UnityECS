@@ -30,7 +30,7 @@
         void Start()
         {
             mouseModeCount = Enum.GetNames(typeof(MouseMode)).Length;
-            flamableStatesCount = Enum.GetNames(typeof(FlamableState)).Length;
+            flamableStatesCount = Enum.GetNames(typeof(FlammableState)).Length;
 
             camera = Camera.main;
         }
@@ -65,7 +65,7 @@
                     var entityToChange = Raycaster.GetEntityWithRaycast(origin, direction);
                     if (spawner.Manager.Exists(entityToChange))
                     {
-                        var flamableData = spawner.Manager.GetComponentData<FlamableData>(entityToChange);
+                        var flamableData = spawner.Manager.GetComponentData<FlammableData>(entityToChange);
 
                         flamableData.State++;
                         if ((int)flamableData.State >= flamableStatesCount)

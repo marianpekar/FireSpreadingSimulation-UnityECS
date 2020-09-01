@@ -3,7 +3,7 @@
     using Unity.Jobs;
     using Unity.Entities;
 
-    public class DestroySystem : JobComponentSystem
+    public class RemoveEntitySystem : JobComponentSystem
     {
         EndSimulationEntityCommandBufferSystem bufferSystem;
 

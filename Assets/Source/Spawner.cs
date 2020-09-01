@@ -70,8 +70,8 @@
             Manager.SetComponentData(instance, new Translation { Value = position });
             Manager.SetComponentData(instance, new Rotation { Value = rotation });
             Manager.AddComponentData(instance, new DestroyData { Destroy = false });
-            Manager.AddComponentData(instance, new FlamableData { State = FlamableState.Healthy });
-            Manager.AddComponentData(instance, new LifetimeData { LifeTime = GlobalData.DefaultLifeTime });
+            Manager.AddComponentData(instance, new FlammableData { State = FlammableState.Healthy });
+            Manager.AddComponentData(instance, new HealthData { Health = GlobalData.DefaultHealth });
             Manager.AddComponentData(instance, new FireSpreadingData { Timer = GlobalData.FireSpreadingTimerInitialValue });
 
             instances.Add(instance);
