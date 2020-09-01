@@ -1,13 +1,10 @@
-﻿namespace MarianPekar.FireSpreadingSimulation
+﻿using UnityEngine.EventSystems;
+
+namespace MarianPekar.FireSpreadingSimulation
 {
     using System;
-    using Unity.Collections;
-    using Unity.Jobs;
     using UnityEngine;
-    using Unity.Entities;
     using Unity.Mathematics;
-    using Unity.Physics;
-    using Unity.Physics.Systems;
 
     public enum MouseMode
     {
@@ -43,7 +40,8 @@
 
         void LateUpdate()
         {
-            if (!Input.GetMouseButtonDown(0)) return;
+            if (!Input.GetMouseButtonDown(0) || EventSystem.current.IsPointerOverGameObject()) return;
+
             var ray = camera.ScreenPointToRay(Input.mousePosition);
             float3 origin = ray.origin;
             float3 direction = ray.direction * raycastDistance;
