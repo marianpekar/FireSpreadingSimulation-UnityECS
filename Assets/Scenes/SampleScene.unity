@@ -484,8 +484,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -89.5, y: 18.6}
-  m_SizeDelta: {x: 163.27829, y: 21.349686}
+  m_AnchoredPosition: {x: -99, y: 32}
+  m_SizeDelta: {x: 163.27829, y: 44.205208}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &382978177
 MonoBehaviour:
@@ -509,7 +509,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 8
+    m_FontSize: 9
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -519,10 +519,13 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'Move with WSADEQ keys
+    m_LineSpacing: 1.2
+  m_Text: 'Move with [W][S][A][D][E][Q] keys
 
-    Hold RMB and move mouse to look around'
+    Hold [Left Shift] to move faster
+
+    Hold
+    [RMB] and move mouse to look around'
 --- !u!222 &382978178
 CanvasRenderer:
   m_ObjectHideFlags: 0
