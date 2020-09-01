@@ -12,42 +12,32 @@
         private bool isSimulationRunning = false;
         public bool IsSimulationRunning
         {
-            get { return isSimulationRunning; }
-            set
-            {
-                isSimulationRunning = value;
-
-                foreach (var action in IsSimulationRunningActions)
-                    action.Invoke(value);
-            }
+            get => isSimulationRunning;
+            set => isSimulationRunning = NotifySubscribersAndReturnValue(value, IsSimulationRunningActions);
         }
 
         public List<Action<float>> WindDirectionChangedActions = new List<Action<float>>();
         private float windDirection;
         public float WindDirection
         {
-            get { return windDirection; }
-            set
-            {
-                windDirection = value;
-
-                foreach (var action in WindDirectionChangedActions)
-                    action.Invoke(value);
-            }
+            get => windDirection;
+            set => windDirection = NotifySubscribersAndReturnValue(value, WindDirectionChangedActions);
         }
 
         public List<Action<float>> WindSpeedChangedActions = new List<Action<float>>();
         private float windSpeed;
         public float WindSpeed
         {
-            get { return windSpeed; }
-            set
-            {
-                windSpeed = value;
+            get => windSpeed;
+            set => windSpeed = NotifySubscribersAndReturnValue(value, WindSpeedChangedActions);
+        }
 
-                foreach (var action in WindSpeedChangedActions)
-                    action.Invoke(value);
-            }
+        private T NotifySubscribersAndReturnValue<T>(T value, List<Action<T>> subscribers)
+        {
+            foreach (var subscriber in subscribers)
+                subscriber.Invoke(value);
+
+            return value;
         }
 
         private static GlobalData instance;
