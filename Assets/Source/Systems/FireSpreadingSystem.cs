@@ -112,8 +112,8 @@
             var maxSpreadingDistance = GlobalData.Instance.WindSpeed * WindSpeedScaleFactor;
             var randomDistance = UnityEngine.Random.Range(1f, maxSpreadingDistance > 1f ? maxSpreadingDistance : 1f);
 
-            var x = randomDistance * Mathf.Cos(GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad);
-            var y = randomDistance * Mathf.Sin(GlobalData.Instance.WindDirection + randomSpread * Mathf.Deg2Rad);
+            var x = randomDistance * Mathf.Cos((GlobalData.Instance.WindDirection + randomSpread) * Mathf.Deg2Rad);
+            var y = randomDistance * Mathf.Sin((GlobalData.Instance.WindDirection + randomSpread) * Mathf.Deg2Rad);
 
             var start = new Vector3(translation.Value.x + x, translation.Value.y + 5f, translation.Value.z + y);
             var end = new Vector3(translation.Value.x + x, translation.Value.y, translation.Value.z + y);
