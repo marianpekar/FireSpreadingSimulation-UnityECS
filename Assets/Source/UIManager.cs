@@ -10,6 +10,7 @@
         [SerializeField] private MouseInputManager mouseInputManager;
         [SerializeField] private Text mouseModeButtonText;
 
+        [SerializeField] private Image simulateButtonImage;
         [SerializeField] private Text simulateButtonText;
 
         [SerializeField] private Slider windDirectionSlider;
@@ -46,9 +47,15 @@
         private void SetSimulationButtonText(bool isSimulationRunning)
         {
             if (isSimulationRunning)
+            {
                 simulateButtonText.text = "Stop";
+                simulateButtonImage.color = Color.red;
+            }
             else
+            {
                 simulateButtonText.text = "Simulate";
+                simulateButtonImage.color = Color.white;
+            }
         }
 
         public void Generate()
