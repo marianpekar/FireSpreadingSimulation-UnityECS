@@ -103,7 +103,8 @@
             Debug.DrawLine(start, end, Color.red, 1f);
 
             var entityToIgnite = Raycaster.GetEntityWithRaycast(start, end - start);
-            manager.SetComponentData(entityToIgnite, new FlammableData() {State = FlammableState.OnFire});
+            if(manager.Exists(entityToIgnite)) 
+                manager.SetComponentData(entityToIgnite, new FlammableData() {State = FlammableState.OnFire});
         }
 
         private Tuple<Vector3, Vector3> GetRay(ref Translation translation)
