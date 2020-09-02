@@ -287,7 +287,7 @@ MonoBehaviour:
       - m_Target: {fileID: 549581782}
         m_TargetAssemblyTypeName: MarianPekar.FireSpreadingSimulation.FireIgniter,
           Assembly-CSharp
-        m_MethodName: IgniteRandomFlamables
+        m_MethodName: IgniteRandomFlammables
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
