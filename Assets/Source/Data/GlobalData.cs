@@ -1,15 +1,19 @@
-﻿namespace MarianPekar.FireSpreadingSimulation
+﻿using Unity.Entities;
+
+namespace MarianPekar.FireSpreadingSimulation
 {
     using System;
     using System.Collections.Generic;
 
     public sealed class GlobalData
     {
+        public EntityManager EntityManager { get; } = World.DefaultGameObjectInjectionWorld.EntityManager;
+
         public const float FireSpreadingTimerInitialValue = 10f;
         public const float DefaultHealth = 20f;
 
         public List<Action<bool>> IsSimulationRunningActions = new List<Action<bool>>();
-        private bool isSimulationRunning = false;
+        private bool isSimulationRunning;
         public bool IsSimulationRunning
         {
             get => isSimulationRunning;
@@ -32,7 +36,7 @@
             set => windSpeed = NotifySubscribersAndReturnValue(value, WindSpeedChangedActions);
         }
 
-        private T NotifySubscribersAndReturnValue<T>(T value, List<Action<T>> subscribers)
+        private T NotifySubscribersAndReturnValue<T>(T value, IEnumerable<Action<T>> subscribers)
         {
             foreach (var subscriber in subscribers)
                 subscriber.Invoke(value);
@@ -40,7 +44,7 @@
             return value;
         }
 
-        private static GlobalData instance;
+        private static GlobalData instance = new GlobalData();
         public static GlobalData Instance
         {
             get
