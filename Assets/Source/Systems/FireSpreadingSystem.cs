@@ -14,7 +14,7 @@
 
         private const float FlameSpreadAngle = 45f;
         private const float WindSpeedSpreadScaleFactor = 0.2f;
-        private const float WindSpeedScaleFactor = 0.66f;
+        private const float WindSpeedScaleFactor = 0.7f;
 
         protected override void OnCreate()
         {
@@ -35,8 +35,6 @@
 
         protected override void OnUpdate()
         {
-            var manager = GlobalData.Instance.EntityManager;
-
             Entities
                 .WithoutBurst()
                 .WithStructuralChanges()
@@ -46,21 +44,21 @@
                     switch (flammableData.State)
                     {
                         case FlammableState.Healthy:
-                            ChangeEntityMaterial(ref manager, ref entity, ref renderMesh, healthyGreen);
+                            ChangeEntityMaterial(ref entity, ref renderMesh, healthyGreen);
                             ResetEntityData(ref flammableData, ref healthData, ref fireSpreadingData);
                             break;
 
                         case FlammableState.OnFire:
-                            ChangeEntityMaterial(ref manager, ref entity, ref renderMesh, burningRed);
+                            ChangeEntityMaterial(ref entity, ref renderMesh, burningRed);
 
                             if(!GlobalData.Instance.IsSimulationRunning || GlobalData.Instance.WindSpeed <= 0f || flammableData.State == FlammableState.Burned)
                                 break;
 
-                            NextSimulationStep(ref fireSpreadingData, ref translation, ref manager, ref healthData, ref flammableData);
+                            NextSimulationStep(ref fireSpreadingData, ref translation, ref healthData, ref flammableData);
                             break;
 
                         case FlammableState.Burned:
-                            ChangeEntityMaterial(ref manager, ref entity, ref renderMesh, deadBlack);
+                            ChangeEntityMaterial(ref entity, ref renderMesh, deadBlack);
                             break;
 
                         default:
@@ -70,22 +68,22 @@
                 }).Run();
         }
 
-        private void NextSimulationStep(ref FireSpreadingData fireSpreadingData, ref Translation translation, ref EntityManager manager,
+        private void NextSimulationStep(ref FireSpreadingData fireSpreadingData, ref Translation translation,
             ref HealthData healthData, ref FlammableData flammableData)
         {
             fireSpreadingData.Timer -= Time.DeltaTime * GlobalData.Instance.WindSpeed * WindSpeedScaleFactor;
             if (fireSpreadingData.Timer <= 0f)
-                SpreadFire(ref translation, ref manager, ref fireSpreadingData);
+                SpreadFire(ref translation, ref fireSpreadingData);
 
             healthData.Health -= Time.DeltaTime;
             if (healthData.Health <= 0)
                 flammableData.State = FlammableState.Burned;
         }
 
-        private void ChangeEntityMaterial(ref EntityManager manager, ref Entity entity, ref RenderMesh renderMesh, Material material)
+        private void ChangeEntityMaterial(ref Entity entity, ref RenderMesh renderMesh, Material material)
         {
             renderMesh.material = material;
-            manager.SetSharedComponentData(entity, renderMesh);
+            GlobalData.Instance.EntityManager.SetSharedComponentData(entity, renderMesh);
         }
 
         private void ResetEntityData(ref FlammableData flammableData, ref HealthData healthData, ref FireSpreadingData fireSpreadingData)
@@ -95,7 +93,7 @@
             fireSpreadingData.Timer = GlobalData.FireSpreadingTimerInitialValue;
         }
 
-        private void SpreadFire(ref Translation translation, ref EntityManager manager, ref FireSpreadingData fireSpreadingData)
+        private void SpreadFire(ref Translation translation, ref FireSpreadingData fireSpreadingData)
         {
             fireSpreadingData.Timer = GlobalData.FireSpreadingTimerInitialValue;
 
@@ -104,7 +102,8 @@
             Debug.DrawLine(start, end, Color.red, 1f);
 
             var entityToIgnite = Raycaster.GetEntityWithRaycast(start, end - start);
-            if(GlobalData.Instance.EntityManager.Exists(entityToIgnite)) 
+            if(GlobalData.Instance.EntityManager.Exists(entityToIgnite) && 
+               GlobalData.Instance.EntityManager.GetComponentData<FlammableData>(entityToIgnite).State == FlammableState.Healthy) 
                 GlobalData.Instance.EntityManager.SetComponentData(entityToIgnite, new FlammableData() {State = FlammableState.OnFire});
         }
 
