@@ -1,9 +1,8 @@
-﻿using UnityEngine.EventSystems;
-
-namespace MarianPekar.FireSpreadingSimulation
+﻿namespace MarianPekar.FireSpreadingSimulation
 {
     using System;
     using UnityEngine;
+    using UnityEngine.EventSystems;
     using Unity.Mathematics;
 
     public enum MouseMode
@@ -55,21 +54,21 @@ namespace MarianPekar.FireSpreadingSimulation
                     break;
                 case MouseMode.Remove:
                     var entityToDestroy = Raycaster.GetEntityWithRaycast(origin, direction);
-                    if (spawner.Manager.Exists(entityToDestroy))
-                        spawner.Manager.DestroyEntity(entityToDestroy);
+                    if (GlobalData.Instance.EntityManager.Exists(entityToDestroy))
+                        GlobalData.Instance.EntityManager.DestroyEntity(entityToDestroy);
 
                     break;
                 case MouseMode.ToggleFire:
                     var entityToChange = Raycaster.GetEntityWithRaycast(origin, direction);
-                    if (spawner.Manager.Exists(entityToChange))
+                    if (GlobalData.Instance.EntityManager.Exists(entityToChange))
                     {
-                        var flamableData = spawner.Manager.GetComponentData<FlammableData>(entityToChange);
+                        var flamableData = GlobalData.Instance.EntityManager.GetComponentData<FlammableData>(entityToChange);
 
                         flamableData.State++;
                         if ((int)flamableData.State >= flamableStatesCount)
                             flamableData.State = 0;
 
-                        spawner.Manager.SetComponentData(entityToChange, flamableData);
+                        GlobalData.Instance.EntityManager.SetComponentData(entityToChange, flamableData);
                     }
                     break;
                 default:

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MarianPekar.FireSpreadingSimulation
+﻿namespace MarianPekar.FireSpreadingSimulation
 {
     using Unity.Physics.Systems;
     using Unity.Collections;

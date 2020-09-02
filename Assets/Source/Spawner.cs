@@ -20,7 +20,6 @@
     {
         [SerializeField] private Spawnable[] spawnables;
 
-        public EntityManager Manager;
         private GameObjectConversionSettings settings;
         private readonly List<Entity> instances = new List<Entity>();
 
@@ -31,7 +30,6 @@
 
         public void Start()
         {
-            Manager = World.DefaultGameObjectInjectionWorld.EntityManager;
             settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, new BlobAssetStore());
         }
 
@@ -66,13 +64,13 @@
 
         private void Spawn(Entity entity, Vector3 position, Quaternion rotation)
         {
-            var instance = Manager.Instantiate(entity);
-            Manager.SetComponentData(instance, new Translation { Value = position });
-            Manager.SetComponentData(instance, new Rotation { Value = rotation });
-            Manager.AddComponentData(instance, new DestroyData { Destroy = false });
-            Manager.AddComponentData(instance, new FlammableData { State = FlammableState.Healthy });
-            Manager.AddComponentData(instance, new HealthData { Health = GlobalData.DefaultHealth });
-            Manager.AddComponentData(instance, new FireSpreadingData { Timer = GlobalData.FireSpreadingTimerInitialValue });
+            var instance = GlobalData.Instance.EntityManager.Instantiate(entity);
+            GlobalData.Instance.EntityManager.SetComponentData(instance, new Translation { Value = position });
+            GlobalData.Instance.EntityManager.SetComponentData(instance, new Rotation { Value = rotation });
+            GlobalData.Instance.EntityManager.AddComponentData(instance, new DestroyData { Destroy = false });
+            GlobalData.Instance.EntityManager.AddComponentData(instance, new FlammableData { State = FlammableState.Healthy });
+            GlobalData.Instance.EntityManager.AddComponentData(instance, new HealthData { Health = GlobalData.DefaultHealth });
+            GlobalData.Instance.EntityManager.AddComponentData(instance, new FireSpreadingData { Timer = GlobalData.FireSpreadingTimerInitialValue });
 
             instances.Add(instance);
         }
@@ -81,8 +79,8 @@
         {
             foreach (var instance in instances)
             {
-                if(Manager.Exists(instance))
-                    Manager.SetComponentData(instance, new DestroyData { Destroy = true });
+                if(GlobalData.Instance.EntityManager.Exists(instance))
+                    GlobalData.Instance.EntityManager.SetComponentData(instance, new DestroyData { Destroy = true });
             }
 
             instances.Clear();

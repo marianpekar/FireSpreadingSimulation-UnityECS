@@ -34,7 +34,7 @@
 
         protected override void OnUpdate()
         {
-            var manager = World.DefaultGameObjectInjectionWorld.EntityManager;
+            var manager = GlobalData.Instance.EntityManager;
 
             Entities
                 .WithoutBurst()
@@ -103,8 +103,8 @@
             Debug.DrawLine(start, end, Color.red, 1f);
 
             var entityToIgnite = Raycaster.GetEntityWithRaycast(start, end - start);
-            if(manager.Exists(entityToIgnite)) 
-                manager.SetComponentData(entityToIgnite, new FlammableData() {State = FlammableState.OnFire});
+            if(GlobalData.Instance.EntityManager.Exists(entityToIgnite)) 
+                GlobalData.Instance.EntityManager.SetComponentData(entityToIgnite, new FlammableData() {State = FlammableState.OnFire});
         }
 
         private Tuple<Vector3, Vector3> GetRay(ref Translation translation)

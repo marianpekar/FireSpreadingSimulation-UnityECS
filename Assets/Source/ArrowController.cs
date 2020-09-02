@@ -4,7 +4,7 @@
 
     public class ArrowController : MonoBehaviour
     {
-        void LateUpdate()
+        private void FixedUpdate()
         {
             var x = Mathf.Cos(GlobalData.Instance.WindDirection * Mathf.Deg2Rad);
             var y = Mathf.Sin(GlobalData.Instance.WindDirection * Mathf.Deg2Rad);
