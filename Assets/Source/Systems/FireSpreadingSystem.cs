@@ -13,7 +13,8 @@
         private Material deadBlack;
 
         private const float FlameSpreadAngle = 45f;
-        private const float WindSpeedScaleFactor = 0.2f;
+        private const float WindSpeedSpreadScaleFactor = 0.2f;
+        private const float WindSpeedScaleFactor = 0.66f;
 
         protected override void OnCreate()
         {
@@ -72,7 +73,7 @@
         private void NextSimulationStep(ref FireSpreadingData fireSpreadingData, ref Translation translation, ref EntityManager manager,
             ref HealthData healthData, ref FlammableData flammableData)
         {
-            fireSpreadingData.Timer -= Time.DeltaTime * GlobalData.Instance.WindSpeed;
+            fireSpreadingData.Timer -= Time.DeltaTime * GlobalData.Instance.WindSpeed * WindSpeedScaleFactor;
             if (fireSpreadingData.Timer <= 0f)
                 SpreadFire(ref translation, ref manager, ref fireSpreadingData);
 
@@ -110,7 +111,7 @@
         private Tuple<Vector3, Vector3> GetRay(ref Translation translation)
         {
             var randomSpread = UnityEngine.Random.Range(-FlameSpreadAngle, FlameSpreadAngle);
-            var maxSpreadingDistance = GlobalData.Instance.WindSpeed * WindSpeedScaleFactor;
+            var maxSpreadingDistance = GlobalData.Instance.WindSpeed * WindSpeedSpreadScaleFactor;
             var randomDistance = UnityEngine.Random.Range(1f, maxSpreadingDistance > 1f ? maxSpreadingDistance : 1f);
 
             var x = randomDistance * Mathf.Cos((GlobalData.Instance.WindDirection + randomSpread) * Mathf.Deg2Rad);
