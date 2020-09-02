@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// A simple free camera to be added to a Unity game object.
@@ -95,7 +96,10 @@ public class FreeCam : MonoBehaviour
         {
             float newRotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * freeLookSensitivity;
             float newRotationY = transform.localEulerAngles.x - Input.GetAxis("Mouse Y") * freeLookSensitivity;
-            transform.localEulerAngles = new Vector3(newRotationY, newRotationX, 0f);
+            Vector3 targetRotation = new Vector3(newRotationY, newRotationX, 0f);
+
+            if(!(targetRotation.x >= 90f && targetRotation.x <= 270f))
+                transform.localEulerAngles = targetRotation;
         }
 
         float axis = Input.GetAxis("Mouse ScrollWheel");
